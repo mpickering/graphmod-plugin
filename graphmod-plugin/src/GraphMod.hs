@@ -38,7 +38,8 @@ plugin = defaultPlugin  {
   , pluginRecompile = impurePlugin
   }
 
--- The main plugin function.
+-- The main plugin function, it collects and serialises the import
+-- information for a module.
 install :: [CommandLineOption] -> ModSummary -> TcGblEnv -> TcM TcGblEnv
 install opts ms tc_gbl = do
     let imps = tcg_rn_imports tc_gbl
@@ -54,7 +55,6 @@ install opts ms tc_gbl = do
 mkOutdir :: [CommandLineOption] -> FilePath
 mkOutdir [] = defaultLocation
 mkOutdir (x:_)  = x
--- Reading and writing the files
 
 writeBinary :: Binary a => FilePath -> a -> IO ()
 writeBinary path payload = do
@@ -67,8 +67,8 @@ mkPath fp m
   = fp </> (moduleNameString (moduleName m) ++ (show (moduleUnitId m)))
 
 
-
-
+-- Converting to GraphMod data types
+--
 -- The type we are going to serialise
 type Payload = (GraphMod.ModName, [GraphMod.Import])
 
@@ -90,27 +90,31 @@ convertModName (L _ mn) = GraphMod.splitModName (moduleNameString mn)
 
 --
 -- Finalisation logic
-
+-- We run this code at the end to gather up all the results and
+-- output the dotfile.
 
 
 readImports :: FilePath -> FilePath -> IO Payload
 readImports outdir fp = do
   readBinMem (outdir </> fp) >>= get
 
-
 collectImports :: IO ()
 collectImports = do
   raw_opts <- getArgs
+--  print raw_opts
   let (fs, _ms, _errs) = getOpt Permute options raw_opts
       opts = foldr ($) default_opts fs
 
       outdir = inputDir opts
+--  print $ ("OutDir: ", outdir)
   files <- listDirectory outdir
+--  print $ ("files:", concat files)
   usages <- mapM (readImports outdir) files
+--  print usages
   let graph = maybePrune opts $ buildGraph usages
   putStr (GraphMod.make_dot opts graph)
 
--- G
+-- Get all the ModNames to make nodes for
 modGraph :: [Payload] -> [GraphMod.ModName]
 modGraph = nub . foldMap do_one
   where
@@ -118,6 +122,7 @@ modGraph = nub . foldMap do_one
 
     do_import (GraphMod.Import n _) = n
 
+--
 buildGraph :: [Payload] -> (GraphMod.AllEdges, GraphMod.Nodes)
 buildGraph payloads = (aes, nodes)
   where
@@ -132,6 +137,8 @@ buildGraph payloads = (aes, nodes)
 
     insertMod (n, k) t = GraphMod.insMod n k t
 
+-- Make edges between the nodes
+-- Invariant: All nodes already exist in the map
 makeEdges :: Map.Map GraphMod.ModName Int
           -> (GraphMod.ModName, GraphMod.Import)
           -> GraphMod.AllEdges
