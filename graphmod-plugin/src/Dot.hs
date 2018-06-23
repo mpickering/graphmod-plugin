@@ -7,6 +7,7 @@ module Dot(make_dot
           , sourceEdges
           , normalEdges
           , maybePrune
+          , collapseAll
           ) where
 import Utils
 import qualified Trie

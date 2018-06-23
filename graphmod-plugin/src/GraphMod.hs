@@ -26,6 +26,10 @@ import System.FilePath
 import System.Directory
 import System.Console.GetOpt
 import System.Environment(getArgs)
+import System.IO
+
+printStderr :: Show a => a -> IO ()
+printStderr = hPutStrLn stderr .  show
 
 initBinMemSize :: Int
 initBinMemSize = 1024 * 1024
@@ -101,18 +105,20 @@ readImports outdir fp = do
 collectImports :: IO ()
 collectImports = do
   raw_opts <- getArgs
---  print raw_opts
+  printStderr raw_opts
   let (fs, _ms, _errs) = getOpt Permute options raw_opts
       opts = foldr ($) default_opts fs
 
       outdir = inputDir opts
---  print $ ("OutDir: ", outdir)
+  printStderr $ ("OutDir: ", outdir)
   files <- listDirectory outdir
---  print $ ("files:", concat files)
+  printStderr $ ("files:", concat files)
   usages <- mapM (readImports outdir) files
---  print usages
-  let graph = maybePrune opts $ buildGraph usages
+  printStderr usages
+  let graph = buildGraph opts usages
   putStr (GraphMod.make_dot opts graph)
+
+
 
 -- Get all the ModNames to make nodes for
 modGraph :: [Payload] -> [GraphMod.ModName]
@@ -123,9 +129,11 @@ modGraph = nub . foldMap do_one
     do_import (GraphMod.Import n _) = n
 
 --
-buildGraph :: [Payload] -> (GraphMod.AllEdges, GraphMod.Nodes)
-buildGraph payloads = (aes, nodes)
+buildGraph :: Opts -> [Payload] -> (GraphMod.AllEdges, GraphMod.Nodes)
+buildGraph opts payloads = maybePrune opts (aes, process nodes)
   where
+    process nodes = collapseAll opts nodes (collapse_quals opts)
+
     nodeMapList = zip (modGraph payloads) [0..]
 
     nodeMap = Map.fromList nodeMapList
