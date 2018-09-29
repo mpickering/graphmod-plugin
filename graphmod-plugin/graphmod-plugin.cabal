@@ -1,6 +1,6 @@
 name:                graphmod-plugin
 version:             0.1.0.0
-synopsis:            A reimplementation of graphmod as a source plugin.
+synopsis:            A reimplementation of graphmod as a source plugin
 description:         A reimplementation of graphmod as a source plugin.
 license:             BSD3
 license-file:        LICENSE
