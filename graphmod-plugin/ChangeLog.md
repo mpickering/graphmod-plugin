@@ -1,5 +1,5 @@
-# Revision history for coerce-plugin
+# Revision history for graphmod-plugin
 
-## 0.1.0.0 -- YYYY-mm-dd
+## 0.1.0.0 -- 2018-09-29
 
-* First version. Released on an unsuspecting world.
+* Initial Release
