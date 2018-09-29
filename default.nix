@@ -3,7 +3,7 @@ let
   plugin-overlay = (import <nixpkgs> {}).nur.repos.mpickering.overlays.haskell-plugins;
 
   # Use head.hackage to get ghc-8.6.1
-  nixpkgs = import ./nixpkgs.nix { overlays = [plugin-overlay]; };
+  nixpkgs = import <nixpkgs> { overlays = [plugin-overlay]; };
 
 
   # Add the unreleased package to the package set
@@ -11,9 +11,9 @@ let
     sel: sup: {
       graphmod-plugin = (sel.callCabal2nix "graphmod-plugin" ./graphmod-plugin {});
     };
-  hp = nixpkgs.haskellPackages.extend(extension);
+  hp = nixpkgs.haskell.packages.ghc861.extend(extension);
 
-
+  v3 = drv: nixpkgs.haskell.lib.appendConfigureFlag drv "-v2";
 
   gv = nixpkgs.graphviz;
 
@@ -34,5 +34,5 @@ in
   with nixpkgs.haskell.lib;
 	# Disable library profiling for GHC bug
 	# Add the plugin to the package we want to build.
-  (addPlugin graphmod (disableLibraryProfiling hp.aeson)).GraphMod
+  (addPlugin graphmod hp.aeson).GraphMod
 

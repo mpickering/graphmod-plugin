@@ -37,9 +37,6 @@ It is recomended to use the plugin with nix which will handle the finalisation
 and generation steps appropiately. See the `default.nix` file for how to achieve
 this.
 
-If you want to try this example then it is strongly recommended to use [cachix](http://cachix.org) as otherwise you will build GHC from source.
-
 ```
-cachix use mpickering
 nix-build
 ```
