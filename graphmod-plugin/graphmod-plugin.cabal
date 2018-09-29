@@ -1,13 +1,13 @@
 name:                graphmod-plugin
 version:             0.1.0.0
--- synopsis:
-description:         A reimplementation of graphmod as a source plugin
+synopsis:            A reimplementation of graphmod as a source plugin.
+description:         A reimplementation of graphmod as a source plugin.
 license:             BSD3
 license-file:        LICENSE
 author:              Matthew Pickering
 maintainer:          matthewtpickering@gmail.com
 -- copyright:
--- category:
+--category:
 build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
