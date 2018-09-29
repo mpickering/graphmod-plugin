@@ -13,9 +13,8 @@ extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
 library
-  exposed-modules: GraphMod Dot Args Utils Trie
-  -- other-modules:
-  -- other-extensions:
+  exposed-modules: GraphMod
+                   GraphMod.Dot GraphMod.Args GraphMod.Utils GraphMod.Trie
   build-depends:       base >=4.10 && <4.13
                        , syb
                        , ghc >= 8.6

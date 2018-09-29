@@ -1,8 +1,8 @@
 -- Option parsing
-module Args(Opts(..), default_opts, options, IgnoreSet, IgnoreSpec(..)
+module GraphMod.Args(Opts(..), default_opts, options, IgnoreSet, IgnoreSpec(..)
            , defaultLocation ) where
-import Utils
-import qualified Trie
+import GraphMod.Utils
+import qualified GraphMod.Trie as Trie
 
 import Data.Maybe(fromMaybe)
 import qualified Data.Map    as Map

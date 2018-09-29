@@ -1,4 +1,4 @@
-module Utils
+module GraphMod.Utils
   (
   Qualifier
   , Import(..)

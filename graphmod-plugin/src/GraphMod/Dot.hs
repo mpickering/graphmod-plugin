@@ -1,4 +1,4 @@
-module Dot(make_dot
+module GraphMod.Dot(make_dot
           , AllEdges
           , Nodes
           , noEdges
@@ -9,9 +9,9 @@ module Dot(make_dot
           , maybePrune
           , collapseAll
           ) where
-import Utils
-import qualified Trie
-import Args
+import GraphMod.Utils
+import qualified GraphMod.Trie as Trie
+import GraphMod.Args
 import Text.Dot
 
 import Control.Monad(forM_,msum,unless)

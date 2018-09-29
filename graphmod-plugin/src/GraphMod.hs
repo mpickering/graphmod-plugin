@@ -15,10 +15,10 @@ import Binary
 import Data.Maybe
 import Data.List
 
-import Utils as GraphMod
-import Dot as GraphMod
-import Args
-import qualified Trie
+import GraphMod.Utils as GraphMod
+import GraphMod.Dot as GraphMod
+import GraphMod.Args
+import qualified GraphMod.Trie as Trie
 
 import qualified Data.Map as Map
 
