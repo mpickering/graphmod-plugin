@@ -4,7 +4,7 @@
 {-# LANGUAGE PackageImports #-}
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
-module GraphMod where
+module GraphMod(plugin, collectImports) where
 
 import GhcPlugins
 import TcRnTypes
