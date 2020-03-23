@@ -34,7 +34,7 @@ data IgnoreSpec = IgnoreAll | IgnoreSome [String]  deriving Show
 type OptT = Opts -> Opts
 
 defaultLocation :: FilePath
-defaultLocation = "/root/graphmod-plugin/output"
+defaultLocation = "/tmp/graphmod-plugin/output"
 
 default_opts :: Opts
 default_opts = Opts
@@ -52,7 +52,7 @@ default_opts = Opts
   }
 
 options :: [OptDescr OptT]
-options =
+options =+447961764649
   [ Option ['i'] ["indir"] (ReqArg add_indir "DIR")
     "Directory where the plugin placed the files"
   , Option ['q'] ["quiet"] (NoArg set_quiet)
