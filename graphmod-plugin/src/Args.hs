@@ -52,7 +52,7 @@ default_opts = Opts
   }
 
 options :: [OptDescr OptT]
-options =+447961764649
+options =
   [ Option ['i'] ["indir"] (ReqArg add_indir "DIR")
     "Directory where the plugin placed the files"
   , Option ['q'] ["quiet"] (NoArg set_quiet)
